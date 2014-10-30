@@ -15,7 +15,7 @@ class orbit(Node, AnimationNode):
 	axisProperty = bpy.props.EnumProperty(name="axis",items=[("x","x","x"),("y","y","y"),("z","z","z")],update = nodePropertyChanged)
 
 	def init(self, context):
-		self.inputs.new("mn_VectorSocket", "Input")
+		# self.inputs.new("mn_VectorSocket", "Input")
 		self.inputs.new("mn_VectorSocket", "Origin point")
 		self.inputs.new("mn_FloatSocket", "Distance")
 		self.inputs.new("mn_FloatSocket","Time")
@@ -29,24 +29,25 @@ class orbit(Node, AnimationNode):
 			row.prop(self, 'axisProperty', expand=True)
 
 	def execute(self, input):
-		Vector_in = input["Input"]
-		Origin = input["Origin point"]
+		# Vector_in = input["Input"]
+		origin = input["Origin point"]
 		time = input["Time"]
 		distance = input["Distance"]
+		result = [origin[0],origin[1],origin[2]]
 
 		# X
 		if self.axisProperty == "x":
-			Vector_in[1] = (math.sin(time * (math.pi / 180)) * distance + Origin[0])
-			Vector_in[2] = (math.cos(time * (math.pi / 180)) * distance + Origin[2])
+			result[1] = (math.sin(time * (math.pi / 180)) * distance + origin[1])
+			result[2] = (math.cos(time * (math.pi / 180)) * distance + origin[2])
 		# Y
 		if self.axisProperty == "y":
-			Vector_in[0] = (math.sin(time * (math.pi / 180)) * distance + Origin[0])
-			Vector_in[2] = (math.cos(time * (math.pi / 180)) * distance + Origin[2])
+			result[0] = (math.sin(time * (math.pi / 180)) * distance + origin[0])
+			result[2] = (math.cos(time * (math.pi / 180)) * distance + origin[2])
 		# Z
 		if self.axisProperty == "z":
-			Vector_in[0] = (math.sin(time * (math.pi / 180)) * distance + Origin[0])
-			Vector_in[1] = (math.cos(time * (math.pi / 180)) * distance + Origin[2])
+			result[0] = (math.sin(time * (math.pi / 180)) * distance + origin[0])
+			result[1] = (math.cos(time * (math.pi / 180)) * distance + origin[1])
 		
 		output = {}
-		output["Output"] = [Vector_in[0],Vector_in[1],Vector_in[2]]
+		output["Output"] = result
 		return output
