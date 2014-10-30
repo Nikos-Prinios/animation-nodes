@@ -37,7 +37,6 @@ class mn_TrackTo(Node, AnimationNode):
 			i *= -1
 		
 		result = math.acos((a-b)/math.sqrt((a-b)**2 + (c-d)**2)) * i
-		print(result)
 		return result
 
 	def execute(self, input):
