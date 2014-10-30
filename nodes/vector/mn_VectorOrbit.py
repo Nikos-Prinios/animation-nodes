@@ -18,7 +18,7 @@ class orbit(Node, AnimationNode):
 		self.inputs.new("mn_VectorSocket", "Input")
 		self.inputs.new("mn_VectorSocket", "Origin point")
 		self.inputs.new("mn_FloatSocket", "Distance")
-		self.inputs.new("mn_IntegerSocket","Time")
+		self.inputs.new("mn_FloatSocket","Time")
 		self.outputs.new("mn_VectorSocket", "Output")
 
 	def draw_buttons(self, context, layout):
