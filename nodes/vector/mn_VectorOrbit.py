@@ -21,11 +21,10 @@ class orbit(Node, AnimationNode):
 		self.outputs.new("mn_VectorSocket", "Output")
 
 	def draw_buttons(self, context, layout):
-			col = layout.column(align = True)
-			
-			row = col.row(align = True)
-			row.label("Axis")
-			row.prop(self, 'axisProperty', expand=True)
+		col = layout.column(align = True)
+		row = col.row(align = True)
+		row.label("Axis")
+		row.prop(self, 'axisProperty', expand=True)
 
 	def execute(self, input):
 		origin = input["Origin point"]
