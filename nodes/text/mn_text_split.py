@@ -14,7 +14,8 @@ class mn_Text_Split(Node, AnimationNode):
 		("Characters", "Characters", ""),
 		("Words", "Words", ""),
 		("Sentences", "Sentences", ""),
-		("Lines", "Lines", "") ]
+		("Lines", "Lines", ""),
+		("Custom", "Custom","") ]
 
 	split_menu = bpy.props.EnumProperty(name = "Split by", items = split_options, default = "Words")
 	
@@ -22,6 +23,7 @@ class mn_Text_Split(Node, AnimationNode):
 	def init(self, context):
 		forbidCompiling()
 		self.inputs.new("mn_StringSocket","Text")
+		self.inputs.new("mn_StringSocket","Split by")
 		self.outputs.new("mn_StringListSocket", "List")
 		self.outputs.new("mn_IntegerSocket", "Length")
 		allowCompiling()
@@ -33,6 +35,7 @@ class mn_Text_Split(Node, AnimationNode):
 		output = {}
 		options = self.split_menu
 		txt = input["Text"]
+		custom = input["Split by"]
 		string_list = []
 
 		if txt == "":
@@ -45,6 +48,8 @@ class mn_Text_Split(Node, AnimationNode):
 			string_list = txt.split('\n')
 		elif options == "Sentences":
 			string_list = re.split(r' *[\.\?!][\'"\)\]]* *', txt)
+		elif options == "Custom":
+			string_list = txt.split(custom)
 
 		output["List"] = string_list
 		output["Length"] = len(string_list)
