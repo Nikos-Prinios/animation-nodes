@@ -4,6 +4,7 @@ from mn_node_base import AnimationNode
 from mn_execution import nodeTreeChanged, allowCompiling, forbidCompiling
 
 def updateNode(node, context):
+	self.setHideProperty()
 	nodeTreeChanged()
 
 class mn_Text_Split(Node, AnimationNode):
@@ -18,7 +19,6 @@ class mn_Text_Split(Node, AnimationNode):
 		("Custom", "Custom","") ]
 
 	split_menu = bpy.props.EnumProperty(name = "Split by", items = split_options, default = "Words")
-	
 
 	def init(self, context):
 		forbidCompiling()
@@ -26,12 +26,21 @@ class mn_Text_Split(Node, AnimationNode):
 		self.inputs.new("mn_StringSocket","Split by")
 		self.outputs.new("mn_StringListSocket", "List")
 		self.outputs.new("mn_IntegerSocket", "Length")
+		self.setHideProperty()
 		allowCompiling()
 	
 	def draw_buttons(self, context, layout):
 		layout.prop(self, "split_menu")
 
+	def setHideProperty(self):
+		if self.split_menu != "Custom":
+			self.inputs['Split by'].hide = True
+		else:
+			self.inputs['Split by'].hide = False
+					
+
 	def execute(self, input):
+		
 		output = {}
 		options = self.split_menu
 		txt = input["Text"]
@@ -54,3 +63,6 @@ class mn_Text_Split(Node, AnimationNode):
 		output["List"] = string_list
 		output["Length"] = len(string_list)
 		return output
+
+	def update(self):
+		self.setHideProperty()
